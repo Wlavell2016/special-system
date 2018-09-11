@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <title>10.5 - Handling events across objects</title>
+        <!-- Bootstrap Core CSS -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+        <!-- jQuery UI CSS -->
+        <link rel="stylesheet" href="css/jquery-ui.min.css">
+        <link rel="stylesheet" href="css/jquery-ui.structure.min.css">
+        <link rel="stylesheet" href="css/jquery-ui.theme.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+        <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container">
+            </div>
+        </nav>
+
+    <!-- Bootstrap grid setup -->
+    <div class="container-fluid chart_section ">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="selections" class="row">
+
+                  <div class="col-md-4">
+                      <select id="region_select" class="form-control">
+                          <option selected value="Ontario">Ontario</option>
+                          <option value="Northern">Northern</option>
+                          <option value="Southern">Southern</option>
+                          <option value="Eastern">Eastern</option>
+                          <option value="Western">Western</option>
+                          <!-- <option value="Sites">Sites</option> -->
+                      </select>
+                  </div>
+                    <div class="col-md-4">
+                        <select id="Site_select" class="form-control">
+                            <option selected value="ON">Ontario</option>
+                            <option value="North">Northern</option>
+                            <option value="South">Southern</option>
+                            <option value="East">Eastern</option>
+                            <option value="West">Western</option>
+                            <option value="Sites">Sites</option>
+
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <select id="indicator_select" class="form-control">
+                            <option selected value="all">All</option>
+                            <option value="membership">Membership</option>
+                            <option value="human_traffic">Indigenous Anti-Human Trafficking</option>
+                            <option value="missing">Missing and Murdered Indigenous Women Family Support</option>
+                            <option value="healthy_babies">Healthy Babies, Healthy Children</option>
+                            <option value="diabetes">Aboriginal Diabetes Education and Awareness</option>
+                            <option value="gambling">Aboriginal Responsible Gambling Awareness</option>
+                            <option value="sexual">Aboriginal Sexual Assault Worker Program</option>
+                            <option value="skills">Aboriginal Skills and Employment Training</option>
+                            <option value="victim">Aboriginal Victim and Family Liaison Program</option>
+                            <option value="leadership">Building Aboriginal Women’s Leadership</option>
+                            <option value="circle_care">Circles of Care</option>
+                            <option value="community">Community Health Outreach Program</option>
+                            <option value="wellness">Community Wellness Program</option>
+                            <option value="mental_health">Mental Health</option>
+                            <option value="my_house">Nihdawin “My House  - A Place Where I Live”</option>
+                            <option value="youth_worker">Youth in Transition Worker Program</option>
+                        </select>
+                    </div>
+                </div>
+              </div>
+            </div>
+
+
+                <div class="row outline chart_row  ">
+                  <div class="col-md-4 outline2">
+                    <div class="row">
+                      <div id="map" class="outline ">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="ONWA_image">
+
+                      </div>
+                    </div>
+                  </div>
+                    <div class="col-md-4 col_charts outline ">
+                      <div class ="row_info_chart">
+                        <div id="myChart6" class="outline" >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4 e-charts outline">
+                      <div class ="row_bar_chart outline">
+                        <div id="myChart5" class="outline" >
+                        </div>
+                      </div>
+                      <div class="row_chart " >
+                        <div class="chart_box ">
+                          <div id="myChart3" class="outline" >
+                          </div>
+                        </div>
+                        <div class="chart_box ">
+                          <div id="myChart4" class='outline' >
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row_chart " >
+                        <div class="chart_box ">
+                          <div id="myChart2" class="outline" >
+                          </div>
+                        </div>
+                        <div class="chart_box ">
+                          <div id="myChart1" class='outline' >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script> -->
+    <!-- External JS libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js" crossorigin="anonymous"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+    <script src="js/d3.min.js"></script>
+    <!-- Custom JS -->
+    <!-- <script src="js/lineChart.js"></script> -->
+    <!-- <script src="js/bar_chart.js"></script> -->
+    <script src="js/lodash.js"></script>
+    <script src="data/data.json"></script>
+    <script src="data/ONWA_A_Sites.js"></script>
+    <script src="data/ONWA_Regions.js"></script>
+    <script src="data/ON_Base.js"></script>
+    <script src="js/maps.js"></script>
+    <script src="js/echarts.js"></script>
+    <script src="js/echarts.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/bar_chart.js"></script>
+    <script src="js/info_graph.js"></script>
+
+
+    </body>
+</html>
