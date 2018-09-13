@@ -289,6 +289,8 @@ let updateProgrammeTotals =() => {
   programme_totals.my_house = 0;
   programme_totals.youth_worker = 0;
 
+
+
   cleanData.forEach(data => {
     if (data.Report_Type === 'membership'){
       programme_totals.membership += data.Total_members;
@@ -648,8 +650,6 @@ $("#region_select").on("change", function() {
     dropdown_region = $("#region_select").val()
     geog = $("#region_select").val();
     nodata()
-    // $("#ONWA_image img").attr("src", image_regions[dropdown_region]).fade;
-
     map.fitBounds(regions[geog].getBounds());
     console.log(cleanData.length)
     console.log(dropdown_region)
