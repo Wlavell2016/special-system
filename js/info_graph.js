@@ -36,7 +36,7 @@ let infochart =(labels, data) =>{
       },
       grid: {
           top: 'center',
-          height: 600,
+          height: '90%',
           left: 70,
           right: 100
       },
