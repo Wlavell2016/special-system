@@ -1,3 +1,99 @@
+/* ************ site loader1 **************** */
+
+
+/* ************ site loader **************** */
+/* .is-loaded.is-site-loader-off .site-loader {
+  display: none !important;
+}
+
+.is-loaded.is-site-loader-off .section:not(.is-active) {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.is-loaded.is-site-loader-off .section.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+.site-loader {
+  z-index: 9999;
+  background-color: #16161b;
+}
+
+.site-loader-spinner {
+  border: 10px solid #3998f9;
+  -webkit-animation: site-loader-spinner 0.75s infinite linear;
+       -o-animation: site-loader-spinner 0.75s infinite linear;
+          animation: site-loader-spinner 0.75s infinite linear;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  margin-top: -40px;
+  margin-left: -40px;
+  border-right-color: transparent;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+}
+
+@-webkit-keyframes site-loader-spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@-o-keyframes site-loader-spinner {
+  0% {
+    -o-transform: rotate(0deg);
+       transform: rotate(0deg);
+  }
+  100% {
+    -o-transform: rotate(360deg);
+       transform: rotate(360deg);
+  }
+}
+
+@keyframes site-loader-spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+         -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+         -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+.site-loader p {
+  /* loader text */
+  /* position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 120px;
+  height: 120px;
+  line-height: 120px;
+  margin: -60px 0 0 -60px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: .75;
+} */
+
+
+
 /* ************map *************** */
 #map {
   height: 85vh;

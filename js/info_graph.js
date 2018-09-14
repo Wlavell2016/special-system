@@ -109,6 +109,6 @@ let infochart =(labels, data) =>{
 
 
 var Info_Chart = echarts.init(document.getElementById('myChart6'));
-infochart(permLabels, programme_values)
+infochart(programme_labels, programme_values)
 Info_Chart.setOption(option);
 // Make dynamic data.

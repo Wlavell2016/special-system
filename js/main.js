@@ -1,3 +1,4 @@
+
 /*
 *    main.js
 *    Mastering Data Visualization with D3.js
@@ -180,8 +181,8 @@ class RegionObject {
           this.region = region;
           this.membership = member_values;
           this.human_traffick = human_values;
-          this.healthy_babies = healthy__babies_values;
           this.missing_and_mu = missing_values;
+          this.healthy_babies = healthy__babies_values;
           this.diabetes = diabetes_values;
           this.gambling = gambling_values;
           this.sexual = sexual_assualt_values;
@@ -225,45 +226,52 @@ let populateArrayProgramme=(chart, values_array, data_array, labels_array) =>{
   }
 }
 
+let checkvalues =(array, indicator) => {
+  if (array.Report_Type !== undefined && array.Report_Type === indicator){
+    if (array.Total_members !== undefined && array.Total_members != 0) {
+    }
+    return true
+  }
+}
+
 let createprogrammeTotals =() => {
   cleanData.forEach(data => {
     programme_totals.region = data.Region;
-    if (data.Report_Type === 'membership'){
-      programme_totals.membership += data.Total_members;
-    } else if (data.Report_Type === 'human_traffick') {
-      programme_totals.human_traffick += data.Total_members ;
-    } else if (data.Report_Type === 'missing_and_mu'){
-      programme_totals.healthy_babies += data.Total_members;
-    } else if (data.Report_Type === 'healthy_babies'){
-      programme_totals.missing_and_mu += data.Total_members;
-    } else if (data.Report_Type === 'diabetes'){
-      programme_totals.diabetes += data.Total_members;
-    } else if (data.Report_Type === 'gambling'){
-      programme_totals.gambling += data.Total_members;
-    } else if (data.Report_Type === 'sexual'){
-      programme_totals.sexual_assualt += data.Total_members;
-    } else if (data.Report_Type === 'skills'){
-      programme_totals.skills_employment += data.Total_members;
-    } else if (data.Report_Type === 'victim'){
-      programme_totals.victim_liason += data.Total_members;
-    } else if (data.Report_Type === 'leadership'){
-      programme_totals.leadership += data.Total_members;
-    } else if (data.Report_Type === 'circle_care'){
-      programme_totals.circle_care += data.Total_members;
-    } else if (data.Report_Type === 'community'){
-      programme_totals.community_health += data.Total_members;
-    } else if (data.Report_Type === 'wellness'){
-      programme_totals.wellness += data.Total_members;
-    } else if (data.Report_Type === 'mental_health'){
-      programme_totals.mental_health += data.Total_members;
-    } else if (data.Report_Type === 'my_house'){
-      programme_totals.my_house += data.Total_members;
-    } else if (data.Report_Type === 'youth_worker'){
-      programme_totals.youth_worker += data.Total_members;
-    }
+      if (checkvalues(data,'membership') === true) {
+        programme_totals.membership += data.Total_members;
+      } else if  (checkvalues(data,'human_traffick') === true) {
+        programme_totals.human_traffick += data.Total_members;
+      } else if  (checkvalues(data,'missing_and_mu') === true) {
+        programme_totals.missing_and_mu += data.Total_members;
+      } else if  (checkvalues(data,'healthy_babies') === true) {
+        programme_totals.healthy_babies += data.Total_members;
+      } else if  (checkvalues(data,'diabetes') === true) {
+        programme_totals.diabetes += data.Total_members;
+      } else if  (checkvalues(data,'gambling') === true) {
+        programme_totals.gambling += data.Total_members;
+      } else if  (checkvalues(data,'sexual') === true) {
+        programme_totals.sexual += data.Total_members;
+      } else if  (checkvalues(data,'skills') === true) {
+        programme_totals.skills += data.Total_members;
+      } else if  (checkvalues(data,'victim') === true) {
+        programme_totals.victim += data.Total_members;
+      } else if  (checkvalues(data,'leadership') === true) {
+        programme_totals.leadership += data.Total_members;
+      } else if  (checkvalues(data,'circle_care') === true) {
+        programme_totals.circle_care += data.Total_members;
+      } else if  (checkvalues(data,'community') === true) {
+        programme_totals.community += data.Total_members;
+      } else if  (checkvalues(data,'wellness') === true) {
+        programme_totals.wellness += data.Total_members;
+      } else if  (checkvalues(data,'mental_health') === true) {
+        programme_totals.mental_health += data.Total_members;
+      } else if  (checkvalues(data,'my_house') === true) {
+        programme_totals.my_house += data.Total_members;
+      } else if  (checkvalues(data,'youth_worker') === true) {
+        programme_totals.youth_worker += data.Total_members;
+      }
   })
   populateArrayProgramme(programme_totals, programme_values, programme_data, programme_labels)
-
 }
 
 let updateProgrammeTotals =() => {
@@ -289,40 +297,38 @@ let updateProgrammeTotals =() => {
   programme_totals.my_house = 0;
   programme_totals.youth_worker = 0;
 
-
-
   cleanData.forEach(data => {
-    if (data.Report_Type === 'membership'){
+    if (checkvalues(data,'membership') === true) {
       programme_totals.membership += data.Total_members;
-    } else if (data.Report_Type === 'human_traffick') {
-      programme_totals.human_trafficking += data.Total_members ;
-    } else if (data.Report_Type === 'missing_and_mu'){
-      programme_totals.healthy_babies += data.Total_members;
-    } else if (data.Report_Type === 'healthy_babies'){
+    } else if  (checkvalues(data,'human_traffick') === true) {
+      programme_totals.human_traffick += data.Total_members;
+    } else if  (checkvalues(data,'missing_and_mu') === true) {
       programme_totals.missing_and_mu += data.Total_members;
-    } else if (data.Report_Type === 'diabetes'){
+    } else if  (checkvalues(data,'healthy_babies') === true) {
+      programme_totals.healthy_babies += data.Total_members;
+    } else if  (checkvalues(data,'diabetes') === true) {
       programme_totals.diabetes += data.Total_members;
-    } else if (data.Report_Type === 'gambling'){
+    } else if  (checkvalues(data,'gambling') === true) {
       programme_totals.gambling += data.Total_members;
-    } else if (data.Report_Type === 'sexual'){
-      programme_totals.sexual_assualt += data.Total_members;
-    } else if (data.Report_Type === 'skills'){
-      programme_totals.skills_employment += data.Total_members;
-    } else if (data.Report_Type === 'victim'){
-      programme_totals.victim_liason += data.Total_members;
-    } else if (data.Report_Type === 'leadership'){
+    } else if  (checkvalues(data,'sexual') === true) {
+      programme_totals.sexual += data.Total_members;
+    } else if  (checkvalues(data,'skills') === true) {
+      programme_totals.skills += data.Total_members;
+    } else if  (checkvalues(data,'victim') === true) {
+      programme_totals.victim += data.Total_members;
+    } else if  (checkvalues(data,'leadership') === true) {
       programme_totals.leadership += data.Total_members;
-    } else if (data.Report_Type === 'circle_care'){
+    } else if  (checkvalues(data,'circle_care') === true) {
       programme_totals.circle_care += data.Total_members;
-    } else if (data.Report_Type === 'community'){
-      programme_totals.community_health += data.Total_members;
-    } else if (data.Report_Type === 'wellness'){
+    } else if  (checkvalues(data,'community') === true) {
+      programme_totals.community += data.Total_members;
+    } else if  (checkvalues(data,'wellness') === true) {
       programme_totals.wellness += data.Total_members;
-    } else if (data.Report_Type === 'mental_health'){
+    } else if  (checkvalues(data,'mental_health') === true) {
       programme_totals.mental_health += data.Total_members;
-    } else if (data.Report_Type === 'my_house'){
+    } else if  (checkvalues(data,'my_house') === true) {
       programme_totals.my_house += data.Total_members;
-    } else if (data.Report_Type === 'youth_worker'){
+    } else if  (checkvalues(data,'youth_worker') === true) {
       programme_totals.youth_worker += data.Total_members;
     }
     })
@@ -651,14 +657,14 @@ $("#region_select").on("change", function() {
     geog = $("#region_select").val();
     nodata()
     map.fitBounds(regions[geog].getBounds());
-    console.log(cleanData.length)
-    console.log(dropdown_region)
+    // console.log(cleanData.length)
+    // console.log(dropdown_region)
 })
 
 $("#indicator_select").on("change", function() {
   dropdown_indicator = $("#indicator_select").val()
   nodata()
-    console.log(dropdown_indicator)
-    console.log(cleanData.length)
-    console.log(cleanData)
+    // console.log(dropdown_indicator)
+    // console.log(cleanData.length)
+    // console.log(cleanData)
 })
