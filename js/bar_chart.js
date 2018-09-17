@@ -3,7 +3,7 @@
 
 let barchart = (labels, title, data, color)=> {
 option = {
-    color: default2,
+    color: color,
     tooltip : {
         trigger: 'axis',
         axisPointer : {            // 坐标轴指示器，坐标轴触发有效
@@ -41,6 +41,6 @@ option = {
 };
 }
 
-barchart(site_labels, capitalizeFirstLetter(dropdown_indicator), sites_values, default2)
+barchart(siteLabels, capitalizeFirstLetter(dropdownIndicator), siteValues, default2)
 var mybarChart = echarts.init(document.getElementById('myChart5'));
 mybarChart.setOption(option);

@@ -293,11 +293,12 @@ function resetHighlight(e) {
 
 function zoomToFeature(e) {
     map.fitBounds(e.target.getBounds());
+    // nodata()
 }
 
 function onEachFeature(feature, layer) {
 layer.on({
-        click: zoomToFeature,
+        // click: zoomToFeature,
         mouseover: highlightFeature,
         mouseout: resetHighlight
     });

@@ -29,34 +29,41 @@ let lineChart,
     donutChart2,
     kobodata;
 
-let status_labels = []
-let status_values = []
-let status_data = []
+let statusLabels = []
+let statusValues = []
+let statusData = []
 
-let reserve_values = []
-let reserve_data = []
-let reserve_labels = []
+let reserveValues = []
+let reserveData = []
+let reserveLabels = []
 
-let urban_values = []
-let urban_data = []
-let urban_labels = []
+let urbanValues = []
+let urbanData = []
+let urbanLabels = []
 
-let region_values = []
-let region_data = []
-let region_labels = []
+let regionValues = []
+let regionData = []
+let regionLabels = []
 
-let programme_values = []
-let programme_data = []
-let programme_labels = []
+let programmeValues = []
+let programmeData = []
+let programmeLabels = []
 
 let cleanData = []
-let result3 =''
 
-let site_labels = ''
-let site_values = ''
+let siteLabels = []
+let siteValues = []
+let siteData = []
 
-let dropdown_indicator = $("#indicator_select").val()
-let dropdown_region = $("#region_select").val()
+let cleanDataSites = []
+let sitesSiteNames = []
+let siteDifference = ''
+
+
+let dropdownIndicator = $("#indicator_select").val()
+let dropdownRegion = $("#region_select").val()
+let dropdownSite = $("#site_select").val()
+
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -79,18 +86,17 @@ var auth = btoa('lavellonwa:Bangkok69!');
   }).done(function(data){
     kobodata = data
   });
-console.log(kobodata)
 
 // ******************** cleaning data *************
 
 // **** intialization of objects **********
 let stringtoInt =(data)=> {
   cleanData.push(Trimmed_ObjectKeys)
-  cleanData.forEach(data=>{
-    for (var key in data) {
-      if (key != 'Region' && key !='Site_Type' && key !='Office_Type' && key !='Report_Type' &&
-      key != 'image_office' && key != 'image_members' && key != '_attachments') {
-        data[key] = +data[key]
+    cleanData.forEach(data=>{
+      for (var key in data) {
+        if (key != 'Region' && key !='Site_Type' && key !='Office_Type' && key !='Report_Type' &&
+        key != 'image_office' && key != 'image_members' && key != '_attachments') {
+          data[key] = +data[key]
       }
     }
   })
@@ -107,21 +113,39 @@ let mappedData =(data) => {
   return Trimmed_ObjectKeys
 }
 
+
+let processSite =(data)=> {
+  if(dropdownSite === data.Site_Type  && dropdownIndicator === data.Report_Type) {
+    mappedData(data)
+    stringtoInt(data)
+  } else if(dropdownSite === data.Site_Type  && dropdownIndicator === 'all') {
+    mappedData(data)
+    stringtoInt(data)
+  }
+}
+let processRegion =(data)=> {
+  if(dropdownRegion === 'Ontario' && dropdownIndicator === 'all') {
+    mappedData(data)
+    stringtoInt(data)
+  } else if (dropdownRegion === 'Ontario' && dropdownIndicator === data.Report_Type){
+    mappedData(data)
+    stringtoInt(data)
+  } else if (data.Region === dropdownRegion && dropdownIndicator === 'all'){
+    mappedData(data)
+    stringtoInt(data)
+  } else if (data.Region === dropdownRegion && data.Report_Type === dropdownIndicator){
+      mappedData(data)
+      stringtoInt(data)
+  }
+}
+
 let processData =() =>{
   cleanData = []
   kobodata.forEach(data => {
-    if(dropdown_region === 'Ontario' && dropdown_indicator === 'all') {
-      mappedData(data)
-      stringtoInt(data)
-    } else if (dropdown_region === 'Ontario' && dropdown_indicator === data.Report_Type){
-      mappedData(data)
-      stringtoInt(data)
-    } else if (data.Region === dropdown_region && dropdown_indicator === 'all'){
-      mappedData(data)
-      stringtoInt(data)
-    } else if (data.Region === dropdown_region && data.Report_Type === dropdown_indicator){
-        mappedData(data)
-        stringtoInt(data)
+    if (dropdownSite != 'All Sites') {
+      processSite(data)
+    } else {
+      processRegion(data)
     }
   })
 }
@@ -167,63 +191,60 @@ class RegionObject {
     }
   }
 
-  class siteObject {
-      constructor(region, programme, north_val, name, values){
-        this.region = region;
-        this.programmeType = programme;
-        this.name = [];
-        this.values = [];
-      }
+class SiteObject {
+    constructor(region, programme, totals){
+      this.region = region;
+      this.programmeType = programme;
+      this.programmeTotal = totals;
     }
+  }
 
-    class programmeObject {
-        constructor(region, programme, member_values, human_values , healthy__babies_values, missing_values, diabetes_values, gambling_values,sexual_assualt_values, skills_employment_values, victom_liason_values, leadership_values, circle_care_values,community_health_values,wellness_values,mental_health_values,my_house_values,youth_worker_values){
-          this.region = region;
-          this.membership = member_values;
-          this.human_traffick = human_values;
-          this.missing_and_mu = missing_values;
-          this.healthy_babies = healthy__babies_values;
-          this.diabetes = diabetes_values;
-          this.gambling = gambling_values;
-          this.sexual = sexual_assualt_values;
-          this.skills = skills_employment_values;
-          this.victim = victom_liason_values;
-          this.leadership = leadership_values;
-          this.circle_care = circle_care_values;
-          this.community = community_health_values;
-          this.wellness = wellness_values;
-          this.mental_health = mental_health_values;
-          this.my_house = my_house_values;
-          this.youth_worker = youth_worker_values;
-        }
-      }
+class ProgrammeObject {
+    constructor(region, programme, member_values, human_values , healthy__babies_values, missing_values, diabetes_values, gambling_values,sexual_assualt_values, skills_employment_values, victom_liason_values, leadership_values, circle_care_values,community_health_values,wellness_values,mental_health_values,my_house_values,youth_worker_values){
+      this.region = region;
+      this.membership = member_values;
+      this.human_traffick = human_values;
+      this.missing_and_mu = missing_values;
+      this.healthy_babies = healthy__babies_values;
+      this.diabetes = diabetes_values;
+      this.gambling = gambling_values;
+      this.sexual = sexual_assualt_values;
+      this.skills = skills_employment_values;
+      this.victim = victom_liason_values;
+      this.leadership = leadership_values;
+      this.circle_care = circle_care_values;
+      this.community = community_health_values;
+      this.wellness = wellness_values;
+      this.mental_health = mental_health_values;
+      this.my_house = my_house_values;
+      this.youth_worker = youth_worker_values;
+    }
+  }
 
 
 // ************* Function to set regions and programme type based on user ****************
 
 let checkDropDowns =(chart, data) => {
-  if(dropdown_region === 'Ontario' && dropdown_indicator === 'all') {
- chart.region = 'Ontario'
- chart.programmeType = 'All'
-} else {
-  chart.region = dropdown_region;
-  chart.programmeType = dropdown_indicator;
-}
+  if(dropdownRegion === 'Ontario' && dropdownIndicator === 'all') {
+    chart.region = 'Ontario'
+    chart.programmeType = 'All'
+  } else {
+    chart.region = dropdownRegion;
+    chart.programmeType = dropdownIndicator;
+  }
 }
 // ************* populate objects ****************
 
-let programme_totals = new programmeObject('',' ', 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
+let programme_totals = new ProgrammeObject('',' ', 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
 
 let populateArrayProgramme=(chart, values_array, data_array, labels_array) =>{
-  for ( let key in chart) {
-    if (key === 'membership' || key === 'human_traffick' || key === 'missing_and_mu' || key === 'healthy_babies' || key === 'diabetes' || key === 'gambling'
-    || key === 'sexual' || key === 'skills' || key === 'victim' || key === 'leadership' || key === 'circle_care' || key === 'community' ||
-     key === 'wellness' || key === 'mental_health' || key === 'my_house' || key === 'youth_worker'){
-      values_array.push(chart[key])
-      data_array.push({'value':chart[key], 'name':capitalizeFirstLetter(key)})
-      labels_array.push(capitalizeFirstLetter(key))
+    for ( let key in chart) {
+      if(key !=='region'){
+        values_array.push(chart[key])
+        data_array.push({'value':chart[key], 'name':capitalizeFirstLetter(key)})
+        labels_array.push(capitalizeFirstLetter(key))
+      }
     }
-  }
 }
 
 let checkvalues =(array, indicator) => {
@@ -271,14 +292,15 @@ let createprogrammeTotals =() => {
         programme_totals.youth_worker += data.Total_members;
       }
   })
-  populateArrayProgramme(programme_totals, programme_values, programme_data, programme_labels)
+  populateArrayProgramme(programme_totals, programmeValues, programmeData, programmeLabels)
 }
 
 let updateProgrammeTotals =() => {
+
   cleanData =[]
-  programme_values = []
-  programme_data = []
-  programme_labels =[]
+  programmeValues = []
+  programmeData = []
+  programmeLabels =[]
   processData()
   programme_totals.membership = 0;
   programme_totals.human_traffick = 0;
@@ -298,6 +320,7 @@ let updateProgrammeTotals =() => {
   programme_totals.youth_worker = 0;
 
   cleanData.forEach(data => {
+    checkDropDowns(programme_totals, data)
     if (checkvalues(data,'membership') === true) {
       programme_totals.membership += data.Total_members;
     } else if  (checkvalues(data,'human_traffick') === true) {
@@ -332,11 +355,11 @@ let updateProgrammeTotals =() => {
       programme_totals.youth_worker += data.Total_members;
     }
     })
-    populateArrayProgramme(programme_totals, programme_values, programme_data, programme_labels)
+    populateArrayProgramme(programme_totals, programmeValues, programmeData, programmeLabels)
 }
 
 // ************* populate objects ****************
-let populateArray=(chart, values_array, data_array, labels_array) =>{
+let populateArrayStatus=(chart, values_array, data_array, labels_array) =>{
   for ( let key in chart) {
     if (key === 'status' || key === 'metis' || key === 'nonStatus' || key === 'inuit'){
       values_array.push(chart[key])
@@ -364,14 +387,14 @@ let createIdentity =() => {
       chart_status.inuit += data.Inuit;
     }
   })
-  populateArray(chart_status, status_values, status_data, status_labels)
+  populateArrayStatus(chart_status, statusValues, statusData, statusLabels)
 }
 
 let updateIdentity =() => {
   cleanData =[]
-  status_values = []
-  status_data = []
-  status_labels =[]
+  statusValues = []
+  statusData = []
+  statusLabels =[]
   processData()
   chart_status.status = 0;
   chart_status.nonStatus =0;
@@ -392,7 +415,7 @@ let updateIdentity =() => {
       chart_status.inuit += data.Inuit;
     }
     })
-    populateArray(chart_status, status_values, status_data, status_labels)
+    populateArrayStatus(chart_status, statusValues, statusData, statusLabels)
 }
 
 // ************ on off reserve ***************
@@ -417,13 +440,13 @@ let createLocation =() => {
       chart_rez.Off_reserve += data.Off_reserve ;
     }
   })
-  populateArraysReserve(chart_rez, reserve_values, reserve_data, reserve_labels)
+  populateArraysReserve(chart_rez, reserveValues, reserveData, reserveLabels)
 }
 
 let updateLocation =() => {
   cleanData =[]
-  reserve_data = []
-  reserve_labels = []
+  reserveData = []
+  reserveLabels = []
   processData()
   chart_rez.On_reserve = 0;
   chart_rez.Off_reserve = 0;
@@ -436,21 +459,21 @@ let updateLocation =() => {
         chart_rez.Off_reserve += data.Off_reserve ;
       }
     })
-    populateArraysReserve(chart_rez, reserve_values, reserve_data, reserve_labels)
+    populateArraysReserve(chart_rez, reserveValues, reserveData, reserveLabels)
 }
 
 // ************* Rural urban*************
-  let populateArraysUrban=(chart, values_array, data_array, labels_array) =>{
-    for ( let key in chart) {
-      if (key === 'urban' || key === 'rural'){
-        values_array.push(chart[key])
-        data_array.push({'value':chart[key], 'name':capitalizeFirstLetter(key)})
-        labels_array.push(capitalizeFirstLetter(key))
-      }
+let populateArraysUrban=(chart, values_array, data_array, labels_array) =>{
+  for ( let key in chart) {
+    if (key === 'urban' || key === 'rural'){
+      values_array.push(chart[key])
+      data_array.push({'value':chart[key], 'name':capitalizeFirstLetter(key)})
+      labels_array.push(capitalizeFirstLetter(key))
     }
   }
+}
 
-  let chart_urban = new UrbanObject ('','',0,0)
+let chart_urban = new UrbanObject ('','',0,0)
   let createUrban =() => {
     cleanData.forEach(data => {
       checkDropDowns(chart_urban, data)
@@ -461,13 +484,13 @@ let updateLocation =() => {
             chart_urban.rural += data.Rural_areas ;
           }
       })
-    populateArraysUrban(chart_urban, urban_values, urban_data, urban_labels)
+    populateArraysUrban(chart_urban, urbanValues, urbanData, urbanLabels)
   }
 
-  let updateUrban =() => {
+let updateUrban =() => {
     cleanData =[]
-    urban_data = []
-    urban_labels = []
+    urbanData = []
+    urbanLabels = []
     processData()
     chart_urban.urban = 0;
     chart_urban.rural = 0;
@@ -480,103 +503,129 @@ let updateLocation =() => {
             chart_urban.rural += data.Rural_areas ;
           }
       })
-      populateArraysUrban(chart_urban, urban_values, urban_data, urban_labels)
-  }
+  populateArraysUrban(chart_urban, urbanValues, urbanData, urbanLabels)
+}
+
   // ************* Region*************
-  let populateArraysRegion=(chart, values_array, data_array, labels_array) =>{
-    for ( let key in chart) {
-      if (key === 'north' || key === 'south' || key === 'east' || key === 'west'){
-        values_array.push(chart[key])
-        data_array.push({'value':chart[key], 'name':capitalizeFirstLetter(key)})
-        labels_array.push(capitalizeFirstLetter(key))
-      }
+let populateArraysRegion=(chart, values_array, data_array, labels_array) =>{
+  for ( let key in chart) {
+    if (key === 'north' || key === 'south' || key === 'east' || key === 'west'){
+      values_array.push(chart[key])
+      data_array.push({'value':chart[key], 'name':capitalizeFirstLetter(key)})
+      labels_array.push(capitalizeFirstLetter(key))
     }
   }
+}
 
-  let chart_region = new RegionObject ('','',0,0,0,0)
-  let createRegion =() => {
-    cleanData.forEach(data => {
-      checkDropDowns(chart_region, data)
-          if (data.Region !== undefined && data.Region != 0) {
-            if (data.Region ==='Northern'){
-              chart_region.north += data.Total_members;
-            } else if (data.Region ==='Southern' ){
-              chart_region.south += data.Total_members;
-            } else if (data.Region ==='Eastern'){
-              chart_region.east += data.Total_members;
-            } else if (data.Region ==='Western') {
-              chart_region.west += data.Total_members;
-            }
-          }
-        })
-    populateArraysRegion(chart_region, region_values, region_data, region_labels)
-  }
+let chart_region = new RegionObject ('','',0,0,0,0)
 
-  let updateRegion =() => {
-    cleanData =[]
-    region_data = []
-    region_labels = []
-    processData()
+let createRegion =() => {
+  cleanData.forEach(data => {
+    checkDropDowns(chart_region, data)
+      if (data.Region !== undefined && data.Region != 0) {
+        if (data.Region ==='Northern'){
+          chart_region.north += data.Total_members;
+        } else if (data.Region ==='Southern' ){
+          chart_region.south += data.Total_members;
+        } else if (data.Region ==='Eastern'){
+          chart_region.east += data.Total_members;
+        } else if (data.Region ==='Western') {
+          chart_region.west += data.Total_members;
+        }
+      }
+  })
+  populateArraysRegion(chart_region, regionValues, regionData, regionLabels)
+}
+
+let updateRegion =() => {
+  cleanData =[]
+  regionData = []
+  regionLabels = []
+  processData()
     chart_region.north = 0;
     chart_region.south = 0;
     chart_region.east  = 0;
     chart_region.west  = 0;
     cleanData.forEach(data => {
-      checkDropDowns(chart_region, data)
-          if (data.Region !== undefined && data.Region != 0) {
-            if (data.Region ==='Northern'){
-              chart_region.north += data.Total_members;
-            } else if (data.Region ==='Southern' ){
-              chart_region.south += data.Total_members;
-            } else if (data.Region ==='Eastern'){
-              chart_region.east += data.Total_members;
-            } else if (data.Region ==='Western') {
-              chart_region.west += data.Total_members;
-            }
-          }
-        })
-      populateArraysRegion(chart_region, region_values, region_data, region_labels)
-  }
+    checkDropDowns(chart_region, data)
+      if (data.Region !== undefined && data.Region != 0) {
+        if (data.Region ==='Northern'){
+          chart_region.north += data.Total_members;
+        } else if (data.Region ==='Southern' ){
+          chart_region.south += data.Total_members;
+        } else if (data.Region ==='Eastern'){
+          chart_region.east += data.Total_members;
+        } else if (data.Region ==='Western') {
+          chart_region.west += data.Total_members;
+        }
+      }
+    })
+  populateArraysRegion(chart_region, regionValues, regionData, regionLabels)
+}
   // ************* Site *************************
 
-let sites = new siteObject('', '', [], [])
+let populateArraySites=(chart, values_array, data_array, labels_array) =>{
+  for ( let key in chart) {
+    if(key !=='region' && key !=='programmeType' && key !=='programmeTotal'){
+      values_array.push(chart[key])
+      data_array.push({'value':chart[key], 'name':capitalizeFirstLetter(key)})
+      labels_array.push(capitalizeFirstLetter(key))
+    }
+  }
+}
+
+let sites = new SiteObject('', '',0)
 
 let SiteCreate =() => {
   cleanData.forEach(data => {
     checkDropDowns(sites, data)
     if (data.Site_Type !== undefined && data.Site_Type != 0) {
-      sites.name.push(data.Site_Type)
+      officeLocation = data.Site_Type
     }
     if (data.Total_members !== undefined && data.Total_members != 0) {
-      sites.values.push(data.Total_members)
+      sites.programmeTotal += data.Total_members;
+    if(sites.hasOwnProperty(officeLocation)=== false){
+        sites[officeLocation] = 0;
+        sites[officeLocation] += data.Total_members
+      } else {
+        sites[officeLocation] += data.Total_members
+      }
     }
   })
-  site_labels = sites.name
-  sites_values = sites.values
+  populateArraySites(sites, siteValues, siteData, siteLabels)
 }
-
-
 
 let updateSites =() => {
   cleanData =[]
-  site_data = []
-  site_labels = []
+  siteData = []
+  siteLabels = []
+  siteValues =[]
   processData()
-  sites.name = [];
-  sites.values = [];
+  // remove old objects based on the difference between the filter.
+  cleanData.forEach(data => {
+        for (let key in sites) {
+            if(key !=='region' && key !=='programmeType' && key !=='programmeTotal'  ) {
+              delete sites[key]
+            }
+        }
+    })
   cleanData.forEach(data => {
     checkDropDowns(sites, data)
-          if (data.Site_Type !== undefined && data.Site_Type != 0) {
-            sites.name.push(data.Site_Type)
-          }
-          if (data.Total_members !== undefined && data.Total_members != 0) {
-            sites.values.push(data.Total_members)
-          }
-      })
-      site_labels = sites.name
-      sites_values = sites.values
-    // populateArraysRegion(chart_region, region_values, region_data, region_labels)
+    if (data.Site_Type !== undefined) {
+        officeLocation = data.Site_Type
+    }
+    if(sites.hasOwnProperty(officeLocation)=== false){
+      sites[officeLocation] = 0;
+    }
+    if (data.Total_members !== undefined) {
+        sites.programmeTotal += data.Total_members;
+        sites[officeLocation]  += data.Total_members;
+    }
+  })
+  console.log(sites)
+  populateArraySites(sites, siteValues, siteData, siteLabels)
 }
+
 // *************** create chart objects ********************
 processData()
 createIdentity()
@@ -592,28 +641,28 @@ let nodata =() => {
   processData()
   if (cleanData.length === 0){
     console.log('foo')
-    status_data = [1,1]
-    status_labels = ['No Data', 'No Data']
-    region_data = [1,1]
-    region_labels =['No Data', 'No Data', 'No Data', 'No Data']
-    reserve_data = [1,1]
-    reserve_labels = ['No Data', 'No Data']
-    urban_data = [1,1]
-    urban_labels = ['No Data', 'No Data']
-    site_values = [1,1]
-    site_labels = ['No Data', 'No Data']
+    statusData = [1,1]
+    statusLabels = ['No Data', 'No Data']
+    regionData = [1,1]
+    regionLabels =['No Data', 'No Data', 'No Data', 'No Data']
+    reserveData = [1,1]
+    reserveLabels = ['No Data', 'No Data']
+    urbanData = [1,1]
+    urbanLabels = ['No Data', 'No Data']
+    siteValues = [1,1]
+    siteLabels = ['No Data', 'No Data']
 
-    piechart1(region_labels, 'Region', region_data, black)
+    piechart1(regionLabels, 'Region', regionData, black)
     myChart1.setOption(option);
-    piechart1(status_labels, 'Identity', status_data, black)
+    piechart1(statusLabels, 'Identity', statusData, black)
     myChart2.setOption(option);
-    piechart1(reserve_labels, 'Off On', reserve_data, black)
+    piechart1(reserveLabels, 'Off On', reserveData, black)
     myChart3.setOption(option);
-    piechart1(urban_labels, 'Urban', urban_data, black)
+    piechart1(urbanLabels, 'Urban', urbanData, black)
     myChart4.setOption(option);
-    barchart(site_labels, capitalizeFirstLetter(dropdown_indicator), sites_values, black)
+    barchart(siteLabels, capitalizeFirstLetter(dropdownIndicator), siteValues, black)
     mybarChart.setOption(option);
-    infochart(programme_labels, programme_values)
+    infochart(programmeLabels, programmeValues)
     Info_Chart.setOption(option);
 
 
@@ -627,17 +676,17 @@ let nodata =() => {
     updateSites()
     updateProgrammeTotals()
 
-    piechart1(region_labels, 'Region', region_data, default2)
+    piechart1(regionLabels, 'Region', regionData, default2)
     myChart1.setOption(option);
-    piechart1(status_labels, 'Identity', status_data, default2)
+    piechart1(statusLabels, 'Identity', statusData, default2)
     myChart2.setOption(option);
-    piechart1(reserve_labels, 'Off On', reserve_data, default2)
+    piechart1(reserveLabels, 'Off On', reserveData, default2)
     myChart3.setOption(option);
-    piechart1(urban_labels, 'Urban', urban_data, default2)
+    piechart1(urbanLabels, 'Urban', urbanData, default2)
     myChart4.setOption(option);
-    barchart(site_labels, capitalizeFirstLetter(dropdown_indicator), sites_values, black)
+    barchart(siteLabels, capitalizeFirstLetter(dropdownIndicator), siteValues, default2)
     mybarChart.setOption(option);
-    infochart(programme_labels, programme_values)
+    infochart(permLabels, programmeValues)
     Info_Chart.setOption(option);
   }
 }
@@ -653,18 +702,26 @@ image_regions.Eastern =  "../img/smilingBaby.jpeg"
 image_regions.Western =  "../img/teaching.jpeg"
 
 $("#region_select").on("change", function() {
-    dropdown_region = $("#region_select").val()
+    dropdownRegion = $("#region_select").val()
     geog = $("#region_select").val();
     nodata()
     map.fitBounds(regions[geog].getBounds());
     // console.log(cleanData.length)
-    // console.log(dropdown_region)
+    // console.log(dropdownRegion)
 })
 
 $("#indicator_select").on("change", function() {
-  dropdown_indicator = $("#indicator_select").val()
+  dropdownIndicator = $("#indicator_select").val()
   nodata()
-    // console.log(dropdown_indicator)
+    // console.log(dropdownIndicator)
+    // console.log(cleanData.length)
+    // console.log(cleanData)
+})
+
+$("#site_select").on("change", function() {
+  dropdownSite = $("#site_select").val()
+  nodata()
+    // console.log(dropdownIndicator)
     // console.log(cleanData.length)
     // console.log(cleanData)
 })
