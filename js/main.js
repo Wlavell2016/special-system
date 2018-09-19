@@ -2,9 +2,9 @@
 //    $('.preloader').fadeOut('slow');
 // });
 $(window).on('load', function(){
-  $('.preloader').fadeOut('slow');
-  $('.preloader2').fadeOut('slow');
-  $('.preloader3').fadeOut('slow');
+  $('.preloader').delay(250).fadeOut('slow');
+  $('.preloader2').delay(250).fadeOut('slow');
+  $('.preloader3').delay(250).fadeOut('slow');
 });
 /*
 *    main.js
