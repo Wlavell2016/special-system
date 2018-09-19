@@ -1,4 +1,11 @@
-
+// $(window).load(function() {
+//    $('.preloader').fadeOut('slow');
+// });
+$(window).on('load', function(){
+  $('.preloader').fadeOut('slow');
+  $('.preloader2').fadeOut('slow');
+  $('.preloader3').fadeOut('slow');
+});
 /*
 *    main.js
 *    Mastering Data Visualization with D3.js

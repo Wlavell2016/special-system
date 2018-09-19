@@ -399,6 +399,7 @@ map.addLayer(sitelayer);
 }
 loadIntial()
 
+map.scrollWheelZoom.disable()
 
 function highlightFeature(e) {
     var layer = e.target;

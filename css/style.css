@@ -91,7 +91,57 @@
   letter-spacing: 1px;
   opacity: .75;
 } */
+/* *************** Site loader viewer **************** */
 
+.preloader {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   z-index: 9997;
+   /* background-image: url('../img/Logo_no_text.png'); */
+	 /* background-image: url('../img/travel.gif'); */
+   background-repeat: no-repeat;
+   background-color:  #0E193F;
+   background-position: center;
+}
+
+.preloader2 {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   z-index: 9998;
+   background-image: url('../img/mandala.svg');
+	 /* background-image: url('../img/travel.gif'); */
+   background-repeat: no-repeat;
+   background-color: transparent;
+   background-position: center;
+	 background-size:40vh;
+	 -webkit-animation:spin 6s linear infinite;
+	 -moz-animation:spin 6s linear infinite;
+	 animation:spin 6s linear infinite;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+
+.preloader3 {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   z-index: 9999;
+   background-image: url('../img/Logo_no_text.png');
+	 /* background-image: url('../img/travel.gif'); */
+   background-repeat: no-repeat;
+   background-color: transparent;
+   background-position: center;
+}
 
 
 /* *************** Mobile Site viewer **************** */
