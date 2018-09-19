@@ -5,12 +5,25 @@
         <meta name="description" content="">
         <title>10.5 - Handling events across objects</title>
         <!-- Bootstrap Core CSS -->
+        <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
+        <!-- <link rel="stylesheet" href="css/bootstrap.css"> -->
+        <link rel="stylesheet" href="css/tooltipster.main.css">
+        <link rel="stylesheet" href="css/tooltipster.bundle.css">
+        <link rel="stylesheet" href="css/tooltipster-sideTip-borderless.min.css">
+        <!-- <link rel="stylesheet" href="css/tooltipster-sideTip-punk.min.css"> -->
+
+        <!-- <link rel="stylesheet" href="css/bootstrap-grid.css"> -->
+        <!-- <link rel="stylesheet" href="css/bootstrap-reboot.css"> -->
+        <!-- <link rel="stylesheet" href="css/bootstrap.css"> -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
         <!-- jQuery UI CSS -->
-        <link rel="stylesheet" href="css/jquery-ui.min.css">
+        <!-- <link rel="stylesheet" href="css/jquery-ui.min.css">
         <link rel="stylesheet" href="css/jquery-ui.structure.min.css">
-        <link rel="stylesheet" href="css/jquery-ui.theme.min.css">
+        <link rel="stylesheet" href="css/jquery-ui.theme.min.css"> -->
+        <link rel="stylesheet" href="css/leaflet-beautify-marker-icon.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
         <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 
@@ -18,20 +31,56 @@
         <link rel="stylesheet" href="css/style.css">
     </head>
 
-    <body>
+    <body >
       <div class="se-pre-con"></div>
         <nav class="navbar navbar-default">
-            <div class="container">
+            <div class="container-fluid">
+              <div class="icon_row">
+                <div class="box1 ">
+                  <div id="icon_tip" class="iconbox1"   title="Click to reset all values!">
+                    <i  class="fas fa-filter fa-2x" ></i>
+                  </div>
+                </div>
+                <div class="box2 ">
+                  <h1>
+                    Ontario Native Women's Association.
+                  </h1>
+                </div>
+                <div class="box3 ">
+                  <img src="../img/Logo_no_text.png" >
+
+                </div>
+              </div>
+              </div>
             </div>
         </nav>
 
     <!-- Bootstrap grid setup -->
-    <div class="container-fluid chart_section ">
+    <div class="cointainer-fluid mobile-container" >
+<div class="col-md-12 ">
+  <div class="mobile_background">
+  <div class='row'>
+      <h1>
+        Ontario Native Women's Association.  Data Dashboard
+      </h1>
+        </div>
+        <div class="logo">
+            <img src="../img/Logo_no_text.png" >
+        </div>
+        <div class='row'>
+      <h2>
+        This site is not suitable for mobile viewing.  Please revisit the site on your desktop.
+      </h2>
+        </div>
+     </div>
+</div>
+    </div>
+    <div class="container-fluid chart_section  ">
         <div class="row dropdown_row">
-            <div class="col-md-12">
-                <div id="selections" class="row">
+            <div class="col-md-12 ">
 
-                  <div class="col-md-4">
+                <div id="selections" class="row section_row ">
+                  <div class="col-md-4 ">
                       <select id="region_select" class="form-control">
                           <option selected value="Ontario">Ontario</option>
                           <option value="Northern">Northern</option>
@@ -41,7 +90,7 @@
                           <!-- <option value="Sites">Sites</option> -->
                       </select>
                   </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 ">
                         <select id="site_select" class="form-control">
                             <option selected value="All Sites">All Sites</option>
                             <option value="Aroland">Aroland</option>
@@ -86,7 +135,7 @@
                             <option value="Toronto">Toronto</option>
                         </select>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 ">
                         <select id="indicator_select" class="form-control">
                             <option selected value="all">All</option>
                             <option value="membership">Membership</option>
@@ -107,20 +156,14 @@
                             <option value="youth_worker">Youth in Transition Worker Program</option>
                         </select>
                     </div>
+
                 </div>
               </div>
             </div>
-
-
                 <div class="row  chart_row ">
-                  <div class="col-md-4  ">
+                  <div class="col-md-4   ">
                     <div class="row">
-                      <div id="map" class=" ">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div id="ONWA_image">
-                        <!-- <img src='../img/dancing.jpeg' /> -->
+                      <div id="map">
                       </div>
                     </div>
                   </div>
@@ -133,65 +176,63 @@
 
                     <div class="col-md-4 e-charts">
                       <div class ="row_bar_chart">
-                        <div id="myChart5" class="" >
+                        <div id="myChart5" >
                         </div>
                       </div>
-                      <div class="row_chart " >
-                        <div class="chart_box ">
-                          <div id="myChart3" class="">
+                      <div class="row_chart">
+                        <div class="chart_box">
+                          <div id="myChart3">
                           </div>
                         </div>
-                        <div class="chart_box ">
-                          <div id="myChart4" class='' >
+                        <div class="chart_box">
+                          <div id="myChart4">
                           </div>
                         </div>
                       </div>
 
                       <div class="row_chart " >
                         <div class="chart_box ">
-                          <div id="myChart2" class="" >
+                          <div id="myChart2">
                           </div>
                         </div>
-                        <div class="chart_box ">
-                          <div id="myChart1" class='' >
+                        <div class="chart_box">
+                          <div id="myChart1">
                           </div>
                         </div>
                       </div>
                     </div>
+                  </div>
+                  <div class="footer">
+                      some text
                 </div>
-            </div>
-        </div>
-    </div>
+              </div>
 
 
-    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script> -->
     <!-- External JS libraries -->
-  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js" crossorigin="anonymous"></script>
-  <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script> -->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-    <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
-    <script src="js/d3.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js" crossorigin="anonymous"></script> -->
     <!-- Custom JS -->
-    <!-- <script src="js/lineChart.js"></script> -->
-    <!-- <script src="js/bar_chart.js"></script> -->
+    <script src="js/jquery.min.js"></script>
+    <!-- <script src="js/bootstrap.min.js"></script> -->
+    <script src="js/bootstrap.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+    <script src="js/leaflet-beautify-marker-icon.js"></script>
     <script src="js/lodash.js"></script>
     <script src="data/ONWA_A_Sites.js"></script>
     <script src="data/ONWA_Regions.js"></script>
     <script src="data/ON_Base.js"></script>
     <script src="js/maps.js"></script>
-    <script src="js/echarts.js"></script>
+    <!-- <script src="js/echarts.js"></script> -->
     <script src="js/echarts.min.js"></script>
+    <script src="js/tooltipster.main.js"></script>
+    <script src="js/tooltipster.bundle.js"></script>
     <script src="js/main.js"></script>
     <script src="js/charts.js"></script>
     <script src="js/bar_chart.js"></script>
     <script src="js/info_graph.js"></script>
-
 
     </body>
 </html>

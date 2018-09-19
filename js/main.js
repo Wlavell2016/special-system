@@ -60,6 +60,9 @@ let sitesSiteNames = []
 let siteDifference = ''
 
 
+let reset = false
+
+
 let dropdownIndicator = $("#indicator_select").val()
 let dropdownRegion = $("#region_select").val()
 let dropdownSite = $("#site_select").val()
@@ -72,7 +75,6 @@ function capitalizeFirstLetter(string) {
 // ***********  Get data from Kobo ************
 var auth = btoa('lavellonwa:Bangkok69!');
 // // token 9237e038cfc26bc5c9637ba7f7e8bd6d8f3a0964
-// let getdata = (ajaxdata=> {
   $.ajax
   ({
     type: "GET",
@@ -113,7 +115,6 @@ let mappedData =(data) => {
   return Trimmed_ObjectKeys
 }
 
-
 let processSite =(data)=> {
   if(dropdownSite === data.Site_Type  && dropdownIndicator === data.Report_Type) {
     mappedData(data)
@@ -137,6 +138,14 @@ let processRegion =(data)=> {
       mappedData(data)
       stringtoInt(data)
   }
+}
+
+let pageReset =()=> {
+  cleanData = []
+  kobodata.forEach(data => {
+    mappedData(data)
+    stringtoInt(data)
+  })
 }
 
 let processData =() =>{
@@ -637,91 +646,91 @@ SiteCreate()
 
 // *************** create chart objects ********************
 
-let nodata =() => {
-  processData()
-  if (cleanData.length === 0){
-    console.log('foo')
-    statusData = [1,1]
-    statusLabels = ['No Data', 'No Data']
-    regionData = [1,1]
-    regionLabels =['No Data', 'No Data', 'No Data', 'No Data']
-    reserveData = [1,1]
-    reserveLabels = ['No Data', 'No Data']
-    urbanData = [1,1]
-    urbanLabels = ['No Data', 'No Data']
-    siteValues = [1,1]
-    siteLabels = ['No Data', 'No Data']
+let nodata =()=> {
+    processData()
+    if (cleanData.length === 0){
+      console.log('foo')
+      statusData = [1,1]
+      statusLabels = ['No Data', 'No Data']
+      regionData = [1,1]
+      regionLabels =['No Data', 'No Data', 'No Data', 'No Data']
+      reserveData = [1,1]
+      reserveLabels = ['No Data', 'No Data']
+      urbanData = [1,1]
+      urbanLabels = ['No Data', 'No Data']
+      siteValues = [1,1]
+      siteLabels = ['No Data', 'No Data']
 
-    piechart1(regionLabels, 'Region', regionData, black)
-    myChart1.setOption(option);
-    piechart1(statusLabels, 'Identity', statusData, black)
-    myChart2.setOption(option);
-    piechart1(reserveLabels, 'Off On', reserveData, black)
-    myChart3.setOption(option);
-    piechart1(urbanLabels, 'Urban', urbanData, black)
-    myChart4.setOption(option);
-    barchart(siteLabels, capitalizeFirstLetter(dropdownIndicator), siteValues, black)
-    mybarChart.setOption(option);
-    infochart(programmeLabels, programmeValues)
-    Info_Chart.setOption(option);
+      piechart1(regionLabels, 'Region', regionData, black)
+      myChart1.setOption(option);
+      piechart1(statusLabels, 'Identity', statusData, black)
+      myChart2.setOption(option);
+      piechart1(reserveLabels, 'Off On', reserveData, black)
+      myChart3.setOption(option);
+      piechart1(urbanLabels, 'Urban', urbanData, black)
+      myChart4.setOption(option);
+      barchart(siteLabels, capitalizeFirstLetter(dropdownIndicator), siteValues, black)
+      mybarChart.setOption(option);
+      infochart(programmeLabels, programmeValues)
+      Info_Chart.setOption(option);
 
+    } else {
+      updateIdentity()
+      updateLocation()
+      updateUrban()
+      updateRegion()
+      updateLocation()
+      updateSites()
+      updateProgrammeTotals()
 
-  } else {
-    console.log('else')
-    updateIdentity()
-    updateLocation()
-    updateUrban()
-    updateRegion()
-    updateLocation()
-    updateSites()
-    updateProgrammeTotals()
-
-    piechart1(regionLabels, 'Region', regionData, default2)
-    myChart1.setOption(option);
-    piechart1(statusLabels, 'Identity', statusData, default2)
-    myChart2.setOption(option);
-    piechart1(reserveLabels, 'Off On', reserveData, default2)
-    myChart3.setOption(option);
-    piechart1(urbanLabels, 'Urban', urbanData, default2)
-    myChart4.setOption(option);
-    barchart(siteLabels, capitalizeFirstLetter(dropdownIndicator), siteValues, default2)
-    mybarChart.setOption(option);
-    infochart(permLabels, programmeValues)
-    Info_Chart.setOption(option);
+      piechart1(regionLabels, 'Region', regionData, default2)
+      myChart1.setOption(option);
+      piechart1(statusLabels, 'Identity', statusData, default2)
+      myChart2.setOption(option);
+      piechart1(reserveLabels, 'Off On', reserveData, default2)
+      myChart3.setOption(option);
+      piechart1(urbanLabels, 'Urban', urbanData, default2)
+      myChart4.setOption(option);
+      barchart(siteLabels, capitalizeFirstLetter(dropdownIndicator), siteValues, default2)
+      mybarChart.setOption(option);
+      infochart(permLabels, programmeValues)
+      Info_Chart.setOption(option);
+    }
   }
-}
 
 // ******************** Drop downs *************
-// $("#ONWA_image").attr("src");
-// $("#ONWA_image").css("background-image", "url(../img/dancing.jpeg");
-
-let image_regions ={}
-image_regions.Northern = "../img/dancing.jpeg"
-image_regions.Southern = "../img/hugging.jpeg"
-image_regions.Eastern =  "../img/smilingBaby.jpeg"
-image_regions.Western =  "../img/teaching.jpeg"
-
 $("#region_select").on("change", function() {
     dropdownRegion = $("#region_select").val()
     geog = $("#region_select").val();
     nodata()
     map.fitBounds(regions[geog].getBounds());
-    // console.log(cleanData.length)
-    // console.log(dropdownRegion)
 })
 
 $("#indicator_select").on("change", function() {
   dropdownIndicator = $("#indicator_select").val()
   nodata()
-    // console.log(dropdownIndicator)
-    // console.log(cleanData.length)
-    // console.log(cleanData)
 })
 
 $("#site_select").on("change", function() {
   dropdownSite = $("#site_select").val()
+  map.flyTo(siteID[dropdownSite] , 12)
   nodata()
-    // console.log(dropdownIndicator)
-    // console.log(cleanData.length)
-    // console.log(cleanData)
 })
+
+$('#icon_tip').tooltipster({
+  animation: 'fade',
+  delay: 200,
+  theme: 'tooltipster-borderless',
+  trigger: 'hover'
+});
+
+$('#icon_tip').on('click', function(){
+  map.fitBounds(regions.Ontario.getBounds());
+  $("#region_select").val('Ontario')
+  $("#site_select").val('All Sites')
+  $("#indicator_select").val('all')
+  dropdownRegion = "Ontario"
+  dropdownIndicator = 'all'
+  dropdownSite = 'All Sites'
+  nodata()
+});

@@ -3,13 +3,21 @@
 
 let barchart = (labels, title, data, color)=> {
 option = {
-    color: color,
+   color: color,
+    // color: ,
     tooltip : {
         trigger: 'axis',
         axisPointer : {            // 坐标轴指示器，坐标轴触发有效
             type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
         }
     },
+    visualMap: [
+        { // the sencond visualMap component
+            type: 'piecewise', // defined to be piecewise visualMap
+            categories: labels,
+        }
+
+    ],
     grid: {
         left: '3%',
         right: '4%',
