@@ -1,7 +1,7 @@
 $(window).on('load', function(){
-  $('.preloader').delay(5000).fadeOut('slow');
-  $('.preloader2').delay(5000).fadeOut('slow');
-  $('.preloader3').delay(5000).fadeOut('slow');
+  $('.preloader').delay(2000).fadeOut('slow');
+  $('.preloader2').delay(2000).fadeOut('slow');
+  $('.preloader3').delay(2000).fadeOut('slow');
 });
 /*
 *    main.js
