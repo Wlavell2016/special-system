@@ -69,7 +69,6 @@ let siteDifference = ''
 
 let reset = false
 
-
 let dropdownIndicator = $("#indicator_select").val()
 let dropdownRegion = $("#region_select").val()
 let dropdownSite = $("#site_select").val()
@@ -720,8 +719,15 @@ $("#indicator_select").on("change", function() {
 
 $("#site_select").on("change", function() {
   dropdownSite = $("#site_select").val()
+  if (dropdownSite === 'All Sites'){
+      map.flyTo(center, 5)
+      resetColorFeature(geojson)
+      nodata()
+  } else {
   map.flyTo(siteID[dropdownSite] , 12)
   nodata()
+  removeColorFeature(geojson)
+  }
 })
 
 $('#icon_tip').tooltipster({
@@ -732,7 +738,7 @@ $('#icon_tip').tooltipster({
 });
 
 $('#icon_tip').on('click', function(){
-  map.fitBounds(regions.Ontario.getBounds());
+  map.flyTo(center, 5)
   $("#region_select").val('Ontario')
   $("#site_select").val('All Sites')
   $("#indicator_select").val('all')
@@ -740,4 +746,5 @@ $('#icon_tip').on('click', function(){
   dropdownIndicator = 'all'
   dropdownSite = 'All Sites'
   nodata()
+  resetColorFeature(geojson)
 });

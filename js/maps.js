@@ -1,4 +1,6 @@
-let circle = L.marker();
+let councilCircle = L.marker();
+let siteCircle = ''
+let chapterCircle = ''
 
 let geog = $("#region_select").val();
 let sitelayer = ''
@@ -10,34 +12,34 @@ let westLayer = ''
 let regions = {
 }
 
-let chart_red = {
+let Site = {
   backgroundColor: '#b2453e',
   iconSize:[16,16],
   iconShape:'circle-dot',
   borderColor: '#BEBEBE',
   borderWidth: '1.5',
   borderStyle: 'solid',
-  name: 'Union of Ontario Indians'
+  name: 'ONWA Site'
 }
 
-let chart_blue = {
+let Council = {
   backgroundColor: '#334553',
   iconSize:[16,16],
   iconShape:'circle-dot',
   borderColor: '#BEBEBE',
   borderWidth: '1.5',
   borderStyle: 'solid',
-  name: 'Union of Ontario Indians'
+  name: 'ONWA Council'
 }
 
-let chart_greenblue = {
+let Chapter = {
   backgroundColor: '#6f9ea6',
   iconSize:[16,16],
   iconShape:'circle-dot',
   borderColor: '#BEBEBE',
   borderWidth: '1.5',
   borderStyle: 'solid',
-  name: 'Union of Ontario Indians'
+  name: 'ONWA Chapter'
 }
 
 
@@ -180,35 +182,6 @@ var map = L.map('map', {
         zoomControl: false
         });
 
-var Council = {
-    iconSize:[16,16],
-    iconShape:'circle-dot',
-    backgroundColor:'rgb(136, 14, 79)',
-    borderColor: '#BEBEBE',
-    borderWidth: '1.5',
-    borderStyle: 'solid',
-    name: 'Union of Ontario Indians'
-}
-
-var Chapter = {
-    iconSize:[16,16],
-    iconShape:'circle-dot',
-    backgroundColor:'rgb(230, 81, 0)',
-    borderColor: '#BEBEBE',
-    borderWidth: '1.5',
-    borderStyle: 'solid',
-    name: 'Association  of Iroquois and Allied Indians'
-}
-
-var Site = {
-    iconSize:[16,16],
-    iconShape:'circle-dot',
-    backgroundColor:'rgb(129, 119, 23)',
-    borderColor: '#BEBEBE',
-    borderWidth: '1.5',
-    borderStyle: 'solid',
-    name: 'Chippewas of Rama First Nation'
-}
 // *******************************************  set windows based on media queries  ***********************************
             if (window.matchMedia("(min-width: 992px)").matches) {
                 map.setView([49.95901374250066, -84.92799672316434], 5)
@@ -232,7 +205,7 @@ var Site = {
 
 // ************************ function to get values from drop down ************
 let region = ''
-let foo = ''
+var geojson;
 
 let siteID = {
   'Aroland': {lat: 50.232409, lng:  -86.983563},
@@ -279,13 +252,6 @@ let siteID = {
   'Toronto': {lat: 43.660855, lng: -79.372528}
 }
 
-
-// {lat: 55.05018018931494, lng: -71.61551428978369}_southWest: o.LatLng {lat: 44.27521955615456, lng: -98.22200242867075}__proto__: Object
-
- // map.fitBounds(e.target.getBounds());
-// ************************ load Json ************
-// this function below filters out the appropiate region from the main JSON. This then is used in the iteration
-// below to be used in the map view
 let loadIntial = ()=> {
   const North = ONWA_Regions.features.filter(region => {
      return region.properties.ON_Region === "Northern"
@@ -313,8 +279,6 @@ ONWA_Regions.features.forEach(data => {
   }
 })
 
-var geojson;
-
 function getColor(d) {
   if ( d === 'Northern') {
     return "#D8D4D3"
@@ -341,27 +305,26 @@ function style(feature) {
     };
 }
 
-function highlightFeature(e) {
-    var layer = e.target;
-
-    layer.setStyle({
-        weight: 5,
-        color: 'white',
-        dashArray: '',
-        fillOpacity: 0.7
-    });
-}
-
-function resetHighlight(e) {
-    geojson.resetStyle(e.target);
-}
+// function highlightFeature(e) {
+//     var layer = e.target;
+//     layer.setStyle({
+//         weight: 5,
+//         color: 'white',
+//         dashArray: '',
+//         fillOpacity: 0.7
+//     });
+// }
+//
+// function resetHighlight(e) {
+//     geojson.resetStyle(e.target);
+// }
 
 geojson = L.geoJson();
 
 function onEachFeature(feature, layer) {
     layer.on({
-        mouseover: highlightFeature,
-        mouseout: resetHighlight,
+        // mouseover: highlightFeature,
+        // mouseout: resetHighlight,
         click: zoomToFeature
     });
 }
@@ -379,59 +342,58 @@ regions.Eastern = eastLayer
 regions.Western = westLayer
 regions.Ontario = ontarioLayer
 
-
   sitelayer = L.geoJSON(ONWA_Sites, {
         pointToLayer: function (feature, latlng) {
           if (feature.properties.Type === 'Council') {
-               circle = L.marker(latlng, {icon: L.BeautifyIcon.icon(chart_blue)}).addTo(map).bindPopup(`<p class="popUp">Name: </p> ${feature.properties.ONWA_Sites}<br /> <p class='popUp'>Location: </p> ${feature.properties.Location}`)
+             circle = L.marker(latlng, {icon: L.BeautifyIcon.icon(Council)}).addTo(map).bindPopup(`<p class="popUp">Name: </p> ${feature.properties.ONWA_Sites}<br /> <p class='popUp'>Location: </p> ${feature.properties.Location}`)
           } else if (feature.properties.Type === 'Chapter')  {
-               circle = L.marker(latlng, {icon: L.BeautifyIcon.icon(chart_greenblue)}).addTo(map).bindPopup(`<p class="popUp">Name: </p> ${feature.properties.ONWA_Sites}<br /> <p class='popUp'>Location: </p> ${feature.properties.Location}`)
+              circle = L.marker(latlng, {icon: L.BeautifyIcon.icon(Chapter)}).addTo(map).bindPopup(`<p class="popUp">Name: </p> ${feature.properties.ONWA_Sites}<br /> <p class='popUp'>Location: </p> ${feature.properties.Location}`)
           } else if (feature.properties.Type === 'Site')  {
-               circle = L.marker(latlng, {icon: L.BeautifyIcon.icon(chart_red)}).addTo(map).bindPopup(`<p class="popUp">Name: </p> ${feature.properties.ONWA_Sites}<br /> <p class='popUp'>Location: </p> ${feature.properties.Location}`)
+              circle = L.marker(latlng, {icon: L.BeautifyIcon.icon(Site)}).addTo(map).bindPopup(`<p class="popUp">Name: </p> ${feature.properties.ONWA_Sites}<br /> <p class='popUp'>Location: </p> ${feature.properties.Location}`)
           }
           circle.on('click', function() {
-            console.log('foo')
               map.flyTo(latlng, 12)
           })
         }
       })
-map.addLayer(sitelayer);
 }
 loadIntial()
 
-map.scrollWheelZoom.disable()
-
-function highlightFeature(e) {
-    var layer = e.target;
-
+let removeColorFeature =(geojson)=> {
+    var layer = geojson;
     layer.setStyle({
-        weight: 10,
-        color: '#666',
-        dashArray: '',
-        fillOpacity: 0.7
+      weight: 2,
+      opacity: 1,
+      color: '#666',
+      dashArray: '0.5',
+      fillOpacity: 0.1
+        // backgroundColor: 'transparent'
     });
 }
 
-function resetHighlight(e) {
-    geojson.resetStyle(e.target);
+let resetColorFeature =(geojson)=> {
+    var layer = geojson;
+    layer.setStyle({
+      weight: 2,
+      opacity: 1,
+      color: '#666',
+      dashArray: '3',
+      fillOpacity: 0.7
+    });
 }
+
+function resetHighlight(geojson) {
+    geojson.resetStyle(geojson);
+}
+
+map.scrollWheelZoom.disable()
 
 function zoomToFeature(e) {
     map.fitBounds(e.target.getBounds());
-    // nodata()
 }
 
 function onEachFeature(feature, layer) {
 layer.on({
-        // click: zoomToFeature,
-        mouseover: highlightFeature,
-        mouseout: resetHighlight
-    });
-}
-
-function onEachFeature(feature, Sitelayer) {
-layer.on({
-        click: zoomToFeature,
         mouseover: highlightFeature,
         mouseout: resetHighlight
     });
@@ -441,10 +403,49 @@ layer.on({
  L.control.zoom({
       position:'bottomright'
  }).addTo(map);
-
  //********************************************change json on load**************
+ let color = [Council,Chapter,Site]
 
- // let east = {lat: 46.60186445531054, lng: -78.4344247446958}
- // let Southern = {lat: 44.84592038220848, lng: -81.81439362160391}
- // let West = {lat: 51.49567730935694, lng: -88.82096414423653}
- // let North = {lat: 52.853132232207145, lng: -83.0178228146863}
+ var legend = L.control({position: 'topright'});
+
+ legend.onAdd = function (map) {
+     	let div = L.DomUtil.create('div', 'info legend');
+     	// loop through the status values and generate a label with a coloured square for each value
+ color.forEach(function(item){
+     		div.innerHTML +=
+     			// <i class="circle" style="background:" +  + item.color + ></i>  + (item.radius ? item.radius + '<br>' : '+');
+                 `<i class="circle" style="background:${item.backgroundColor}"></i> ${item.name} <br>`
+     	})
+     	return div;
+     }
+legend.addTo(map);
+
+//******************************************************************************
+var center = map.getCenter()
+var customControl =  L.Control.extend({options: {position: 'topright'},
+  onAdd: function (map) {
+    var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control homebutton leaflet-control-custom');
+
+    container.style.cursor = 'pointer';
+    container.style.backgroundColor = 'white';
+    container.style.backgroundImage = "url(img/home.png)";
+    container.style.backgroundSize = "32px 32px";
+    container.style.width = '44px';
+    container.style.height = '44px';
+    container.style.align='center';
+    container.onclick = function(){
+        map.flyTo(center, 5)
+        resetColorFeature(geojson)
+        $("#region_select").val('Ontario')
+        $("#site_select").val('All Sites')
+        $("#indicator_select").val('all')
+        dropdownRegion = "Ontario"
+        dropdownIndicator = 'all'
+        dropdownSite = 'All Sites'
+        nodata()
+    }
+    return container;
+  }
+});
+map.addControl(new customControl());
+// }
