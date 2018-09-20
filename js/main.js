@@ -1,11 +1,8 @@
-// $(window).load(function() {
-//    $('.preloader').fadeOut('slow');
-// });
-// $(window).on('load', function(){
-//   $('.preloader').delay(5000).fadeOut('slow');
-//   $('.preloader2').delay(5000).fadeOut('slow');
-//   $('.preloader3').delay(5000).fadeOut('slow');
-// });
+$(window).on('load', function(){
+  $('.preloader').delay(5000).fadeOut('slow');
+  $('.preloader2').delay(5000).fadeOut('slow');
+  $('.preloader3').delay(5000).fadeOut('slow');
+});
 /*
 *    main.js
 *    Mastering Data Visualization with D3.js
