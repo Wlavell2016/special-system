@@ -469,11 +469,18 @@ margin-top: 4px;
 
 .container-fluid {
 	padding-left: 0px!important;
+  padding-right: 0px!important;
+
+}
+
+.chart-container {
+  padding-left: 15px!important;
+  padding-right: 15px!important;
 }
 .footer {
 	background-color: #0E193F;
 	height:4vh;
-	width:100vw;
+	width:110vw;
 }
 /* .overlay {
   fill: none;
