@@ -145,14 +145,13 @@
 
 
 /* *************** Mobile Site viewer **************** */
-@media (min-width: 576px) {
+@media (min-width: 200px) {
 	.chart_section {
  	 display: none;
   }
-	.navbar-default {
-		display: none;
-	}
-
+  .navbar {
+    display:none!important;
+  }
   .mobile-container {
  	 display:flex;
 	 height:100vh;
@@ -160,19 +159,38 @@
 }
 
 
- h1 {
+h1 {
+  font-family:  'Myriad Pro', Bold Condensed!important;
+  font-weight: bold;
+  color: #FFF!important;
+  font-size: 4.5rem;
+}
+h2 {
+  font-family:  'Myriad Pro', Bold Condensed!important;
+  font-weight: bold;
+  color: #FFF!important;
+  font-size: 3.5rem;
+}
+.mobile_background .row h1 {
 	font-family:  'Myriad Pro', Bold Condensed!important;
 	font-weight: bold;
 	color: #FFF!important;
-	font-size: 2.5rem;
+	font-size: 4.5rem;
 }
 
 
-  h2 {
+.mobile_background .row h2 {
 	font-family: 'Myriad Pro', Bold Condensed!important;
 	font-weight: bold;
 	color: #FFF;
-	font-size: 2.5rem;
+	font-size: 3.5rem;
+}
+
+.mobile_background .row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .logo{
@@ -182,7 +200,6 @@
 	align-items: center;
 	height:70vh;
 	width:70vw;
-	border: solid white 2px;
 	/* background-image:url("../img/Logo_no_text.png");
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -214,29 +231,18 @@
 	 display: block;
  }
 
- .navbar-default {
-	 display: block;
- }
-
  .mobile-container {
 	 display:none;
+ }
+
+ .navbar {
+   display:flex!important;
+   background-color: #0E193F!important;
+   height:12vh;
  }
 }
 
 /* ************* selections ************* */
-
-.tooltipster-sidetip.tooltipster-borderless.tooltipster-borderless-customized .tooltipster-box {
-	background: grey;
-	border: 23px solid red;
-	border-radius: 6px;
-	box-shadow: 5px 5px 2px 0 rgba(0,0,0,0.4);
-}
-
-.navbar {
-	background-color: #0E193F;
-	height:12vh;
-
-}
 .selection_row {
   height:6vh;
 }
@@ -270,16 +276,8 @@
 
 /* **************** reset filter ************** */
 
-.box2 {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	height:100%;
-}
 
-.box1,
-.box3{
+.box1{
 	 display: flex;
 	 flex-direction: row;
 	 justify-content: center;
@@ -287,9 +285,18 @@
 	 height:100%;
  }
 
- .box3 img {
-	 height: 5vh;
+ .box2 {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   height:100%;
  }
+
+ .box3 img  {
+   height:5vh;
+ }
+
 .icon_row {
   display: flex;
   flex-direction: row;
