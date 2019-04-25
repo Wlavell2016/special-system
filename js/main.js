@@ -1,14 +1,12 @@
-$(window).on('load', function(){
-  $('.preloader').delay(2000).fadeOut('slow');
-  $('.preloader2').delay(2000).fadeOut('slow');
-  $('.preloader3').delay(2000).fadeOut('slow');
-});
-/*
-*    main.js
-*    Mastering Data Visualization with D3.js
-*    10.5 - Handling events across objects
-*/
-// ********** Colours *********
+// ******************  page loader *******************
+// $(window).on('load', function(){
+//   $('.preloader').delay(2000).fadeOut('slow');
+//   $('.preloader2').delay(2000).fadeOut('slow');
+//   $('.preloader3').delay(2000).fadeOut('slow');
+// });
+// ******************  page loader *******************
+
+// ********** Dashboard Colours *********
 let ONWAcolours = []
 let black = ['#808080']
 let default1 =  [
@@ -27,11 +25,8 @@ let medicineWheel = [
 ]
 let default2 = ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3']
 
-// Global variables
-let lineChart,
-    donutChart1,
-    donutChart2,
-    kobodata;
+// ********************** Global variables **************
+let kobodata
 
 let statusLabels = []
 let statusValues = []
@@ -63,19 +58,16 @@ let cleanDataSites = []
 let sitesSiteNames = []
 let siteDifference = ''
 
-
-let reset = false
-
 let dropdownIndicator = $("#indicator_select").val()
 let dropdownRegion = $("#region_select").val()
 let dropdownSite = $("#site_select").val()
 
 
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
-// ***********  Get data from Kobo ************
+
+// ************************  Get data from Kobo ************
+var auth = btoa('lavellonwa:Bangkok69!');
+// // token 9237e038cfc26bc5c9637ba7f7e8bd6d8f3a0964
 var auth = btoa('lavellonwa:Bangkok69!');
 // // token 9237e038cfc26bc5c9637ba7f7e8bd6d8f3a0964
   $.ajax
@@ -92,9 +84,9 @@ var auth = btoa('lavellonwa:Bangkok69!');
     kobodata = data
   });
 
-// ******************** cleaning data *************
+// ******************** Processing Data *************
 
-// **** intialization of objects **********
+// ******************** Converting strings to integers *************
 let stringtoInt =(data)=> {
   cleanData.push(Trimmed_ObjectKeys)
     cleanData.forEach(data=>{
@@ -107,6 +99,7 @@ let stringtoInt =(data)=> {
   })
 }
 
+// ******************** Creating an array of values based on the filters from the dashboard *************
 let mappedData =(data) => {
   Trimmed_ObjectKeys = _.mapKeys(data, function(value, key){
     let keyIndex = key.indexOf('/')
@@ -118,6 +111,9 @@ let mappedData =(data) => {
   return Trimmed_ObjectKeys
 }
 
+// ******************** Filtering functions to update the dashboard based on the values from the dropdowns.*************
+// the filtering functions look for the matched site type and report type and populate the array of objects based on the filters
+
 let processSite =(data)=> {
   if(dropdownSite === data.Site_Type  && dropdownIndicator === data.Report_Type) {
     mappedData(data)
@@ -127,6 +123,10 @@ let processSite =(data)=> {
     stringtoInt(data)
   }
 }
+
+// the filtering functions look for the matched region type and report Type and report type and populate
+ // the array of objects based on the filters.  The default is no filter.
+
 let processRegion =(data)=> {
   if(dropdownRegion === 'Ontario' && dropdownIndicator === 'all') {
     mappedData(data)
@@ -143,6 +143,10 @@ let processRegion =(data)=> {
   }
 }
 
+// ************* Resetting the dashboard page values **********
+// The function below recreates the array needed for the dashboard and resets to the original unfiltered values.
+
+
 let pageReset =()=> {
   cleanData = []
   kobodata.forEach(data => {
@@ -150,6 +154,10 @@ let pageReset =()=> {
     stringtoInt(data)
   })
 }
+
+// ************* Processing the data for the arrays for the dashboard **********
+
+// The function below creates the cleaned data array which is used for the dashboard.
 
 let processData =() =>{
   cleanData = []
@@ -162,7 +170,7 @@ let processData =() =>{
   })
 }
 
-// ************ function to update objects **************
+// ************ Objects to be used for the dashboard. **************
 class IdentityObject {
     constructor(region, programme, status_val, inuit_val, non_val, metis_val){
       this.region = region;
@@ -235,7 +243,13 @@ class ProgrammeObject {
 
 
 // ************* Function to set regions and programme type based on user ****************
+// ************* Captilize the first letter in a string. ****************
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// ************* set region and programme type to correct values ****************
 let checkDropDowns =(chart, data) => {
   if(dropdownRegion === 'Ontario' && dropdownIndicator === 'all') {
     chart.region = 'Ontario'
@@ -245,8 +259,17 @@ let checkDropDowns =(chart, data) => {
     chart.programmeType = dropdownIndicator;
   }
 }
-// ************* populate objects ****************
 
+// ************* checking if values are in correct format for the objects ****************
+let checkvalues =(array, indicator) => {
+  if (array.Report_Type !== undefined && array.Report_Type === indicator){
+    if (array.Total_members !== undefined && array.Total_members != 0) {
+    }
+    return true
+  }
+}
+
+// ************* Populate objects ****************
 let programme_totals = new ProgrammeObject('',' ', 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
 
 let populateArrayProgramme=(chart, values_array, data_array, labels_array) =>{
@@ -259,13 +282,6 @@ let populateArrayProgramme=(chart, values_array, data_array, labels_array) =>{
     }
 }
 
-let checkvalues =(array, indicator) => {
-  if (array.Report_Type !== undefined && array.Report_Type === indicator){
-    if (array.Total_members !== undefined && array.Total_members != 0) {
-    }
-    return true
-  }
-}
 
 let createprogrammeTotals =() => {
   cleanData.forEach(data => {
@@ -308,7 +324,6 @@ let createprogrammeTotals =() => {
 }
 
 let updateProgrammeTotals =() => {
-
   cleanData =[]
   programmeValues = []
   programmeData = []
@@ -370,7 +385,7 @@ let updateProgrammeTotals =() => {
     populateArrayProgramme(programme_totals, programmeValues, programmeData, programmeLabels)
 }
 
-// ************* populate objects ****************
+// ************* populate Identity Object ****************
 let populateArrayStatus=(chart, values_array, data_array, labels_array) =>{
   for ( let key in chart) {
     if (key === 'status' || key === 'metis' || key === 'nonStatus' || key === 'inuit'){
@@ -381,7 +396,7 @@ let populateArrayStatus=(chart, values_array, data_array, labels_array) =>{
   }
 }
 
-// ************ Identity ***************
+// ************ Populate Identity Object ***************
 let chart_status = new IdentityObject ('','',0,0,0,0)
 let createIdentity =() => {
   cleanData.forEach(data => {
@@ -401,6 +416,8 @@ let createIdentity =() => {
   })
   populateArrayStatus(chart_status, statusValues, statusData, statusLabels)
 }
+
+// ************ Update Identity Object ***************
 
 let updateIdentity =() => {
   cleanData =[]
@@ -430,7 +447,7 @@ let updateIdentity =() => {
     populateArrayStatus(chart_status, statusValues, statusData, statusLabels)
 }
 
-// ************ on off reserve ***************
+// ************ Populate residence on/off reserve object ***************
 let populateArraysReserve=(chart, values_array, data_array, labels_array) =>{
   for ( let key in chart) {
     if (key === 'On_reserve' || key === 'Off_reserve'){
@@ -454,6 +471,8 @@ let createLocation =() => {
   })
   populateArraysReserve(chart_rez, reserveValues, reserveData, reserveLabels)
 }
+
+// ************ Populate residenc on/off reserve object ***************
 
 let updateLocation =() => {
   cleanData =[]
